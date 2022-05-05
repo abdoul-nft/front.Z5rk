@@ -11,6 +11,15 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
+    script: [
+      {
+        // https://unpkg.com/moralis/dist/moralis.js
+        src: "https://unpkg.com/moralis/dist/moralis.js",
+      },
+      {
+        src: '/js/moralis.js'
+      },
+    ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {rel: 'stylesheet', type: 'text/css', href: '/css/remixicon.min.css'},
@@ -40,7 +49,12 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios'
   ],
+
+  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
+  axios: {
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

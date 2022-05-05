@@ -1,5 +1,5 @@
 <template>
-  <li class="nav-item">
+  <li class="nav-item" @click="$emit('clicked')">
     <a class="nav-link" data-bs-toggle="modal" data-bs-target="#mdllOtherOpen">
         <div class="icon-app">
             <picture>
