@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- ===================================
-      START THE ACCOUNT DETAILS
-    ==================================== -->
     <section class="un-my-account">
       <!-- head -->
       <div class="head">
@@ -13,8 +10,8 @@
                       <img src="~/assets/images/avatar/11.jpg" alt="">
                   </picture>
                   <div class="txt-user">
-                      <h1>Rocco Gavin</h1>
-                      <p>0xe388e162b88cvq85f...E162</p>
+                      <h1>{{ $store.state.user.username }}</h1>
+                     <p>{{ $store.state.user.wallet_address.slice(0, 15) + '...' }}</p>
                   </div>
               </div>
               <button type="button" class="btn btn-copy-address">
@@ -35,7 +32,7 @@
           </div>
           <div class="my-balance-text">
               <h2>My Balance</h2>
-              <p>3,650 ETH</p>
+              <p>{{ $store.state.balance }} ETH</p>
 
               <button type="button"
                   class="btn btn-md-size effect-click border-primary rounded-pill text-primary"
@@ -45,13 +42,11 @@
           </div>
       </div>
   </section>
-  <!-- ===================================
-    START ACCOUNT LIST
-  ==================================== -->
+
   <section class="un-navMenu-default without-visit">
       <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link visited" href="page-my-wallet.html">
+            <a class="nav-link visited" @click="$nuxt.$router.push('/my-wallet')">
                 <div class="item-content-link">
                     <div class="icon bg-green-1 color-green">
                         <i class="ri-wallet-line"></i>
@@ -59,7 +54,7 @@
                     <h3 class="link-title">My Wallet</h3>
                 </div>
                 <div class="other-cc">
-                    <span class="badge-text"> 0Xe388...E162</span>
+                    <span class="badge-text">{{ $store.state.user.wallet_address.slice(0, 9) + '...' }}</span>
                     <div class="icon-arrow">
                         <i class="ri-arrow-drop-right-line"></i>
                     </div>
@@ -67,7 +62,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="page-edit-profile.html">
+            <a class="nav-link" @click="$nuxt.$router.push('/edit-profile')">
                 <div class="item-content-link">
                     <div class="icon bg-orange-1 color-orange">
                         <i class="ri-user-3-line"></i>
@@ -83,28 +78,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="page-my-item.html">
+            <a class="nav-link" @click="$nuxt.$router.push('/activity-settings')">
                 <div class="item-content-link">
                     <div class="icon bg-blue-1 color-blue">
                         <i class="ri-landscape-line"></i>
                     </div>
                     <h3 class="link-title">My Items</h3>
-                </div>
-                <div class="other-cc">
-                    <span class="badge-text"></span>
-                    <div class="icon-arrow">
-                        <i class="ri-arrow-drop-right-line"></i>
-                    </div>
-                </div>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="page-news-list.html">
-                <div class="item-content-link">
-                    <div class="icon bg-pink-1 color-pink">
-                        <i class="ri-file-list-2-line"></i>
-                    </div>
-                    <h3 class="link-title">News List</h3>
                 </div>
                 <div class="other-cc">
                     <span class="badge-text"></span>
@@ -139,25 +118,9 @@
             </div>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="javascript: void(0)">
-                <div class="item-content-link">
-                    <div class="icon bg-snow text-dark">
-                        <i class="ri-global-line"></i>
-                    </div>
-                    <h3 class="link-title">Language</h3>
-                </div>
-                <div class="other-cc">
-                    <span class="badge-text">English (UK)</span>
-                    <div class="icon-arrow">
-                        <i class="ri-arrow-drop-right-line"></i>
-                    </div>
-                </div>
-            </a>
-        </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="page-activity-settings.html">
+            <a class="nav-link" @click="$nuxt.$router.push('/activity-settings')">
                 <div class="item-content-link">
                     <div class="icon bg-red-1 color-red">
                         <i class="ri-notification-line"></i>
@@ -171,44 +134,6 @@
                     </div>
                 </div>
             </a>
-        </li>
-
-        <div class="sub-title-pkg">
-            <h2>Support</h2>
-        </div>
-
-        <li class="nav-item">
-            <a class="nav-link visited" href="page-help.html">
-                <div class="item-content-link">
-                    <div class="icon bg-green-1 color-green">
-                        <i class="ri-questionnaire-line"></i>
-                    </div>
-                    <h3 class="link-title">Help Center</h3>
-                </div>
-                <div class="other-cc">
-                    <span class="badge-text"></span>
-                    <div class="icon-arrow">
-                        <i class="ri-arrow-drop-right-line"></i>
-                    </div>
-                </div>
-            </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="page-about.html">
-              <div class="item-content-link">
-                  <div class="icon bg-blue-1 color-blue">
-                      <i class="ri-information-line"></i>
-                  </div>
-                  <h3 class="link-title">About Unic.</h3>
-              </div>
-              <div class="other-cc">
-                  <span class="badge-text"></span>
-                  <div class="icon-arrow">
-                      <i class="ri-arrow-drop-right-line"></i>
-                  </div>
-              </div>
-          </a>
         </li>
 
         <div class="sub-title-pkg">
