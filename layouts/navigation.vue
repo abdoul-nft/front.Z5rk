@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     getUserBalance() {
-      this.$axios.get('http://localhost:4000/v1/get-balance/' + this.$store.state.user.wallet_address)
+      this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/get-balance/' + this.$store.state.user.wallet_address)
       .then( (response)  => {
           if(response) {
               this.$store.dispatch('updateBalance', parseInt(response.data.data.balance)/1000000000000000000)
@@ -51,7 +51,7 @@ export default {
     },
 
     getUserTransactions() {
-      this.$axios.get('http://localhost:4000/v1/get-transactions/' + this.$store.state.user.wallet_address)
+      this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/get-transactions/' + this.$store.state.user.wallet_address)
       .then( (response)  => {
           if(response) {
             this.$store.dispatch('updateTransactions', response.data.data.result)

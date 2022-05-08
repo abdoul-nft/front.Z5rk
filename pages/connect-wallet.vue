@@ -52,7 +52,7 @@ export default Vue.extend({
 
     async register(wallet_address) {
       try {
-        await this.$axios.post('http://localhost:4000/v1/auth/register', {
+        await this.$axios.post('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/register', {
           'wallet_address': wallet_address
         })
          this.$store.dispatch('updateUser', data.data.user)
@@ -63,7 +63,7 @@ export default Vue.extend({
     },
 
     getUser(wallet_address) {
-      this.$axios.get('http://localhost:4000/v1/auth/account/' + wallet_address)
+      this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/account/' + wallet_address)
       .then( (data)  => {
         if(data.data.user) {
           console.log('data.data.user => ', data.data.user)

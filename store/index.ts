@@ -37,7 +37,7 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('CHANGE_MODE')
   },
   getNFTs({ commit }) {
-    this.$axios.get('http://localhost:4000/v1/nfts/?q=bored ape')
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=bored ape')
       .then( (response)  => {
         if(response) {
           commit('SET_NFTS', response.data.data.result)
