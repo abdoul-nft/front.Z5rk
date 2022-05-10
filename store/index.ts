@@ -6,6 +6,7 @@ export const state = () => ({
   transactions: null,
   mode: 'light',
   nfts: null,
+  nftSearchResult: null,
   
 })
 
@@ -21,6 +22,7 @@ export const mutations: MutationTree<RootState> = {
   SET_TRS: (state, newVal: any) => (state.transactions = newVal),
   SET_MODE: (state) => (state.mode = state.mode ? 'light' : 'dark'),
   SET_NFTS: (state, newVal: any) => (state.nfts = newVal),
+  SET_NFT_SEARCH: (state, newVal: any) => (state.nftSearchResult = newVal),
   SHOW_SOMETHING: () => (console.log('ok')),
 }
 
@@ -38,7 +40,7 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_MODE')
   },
   getNFTs({ commit }) {
-    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=doodles')
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=clonex')
       .then( (response)  => {
         if(response) {
           commit('SET_NFTS', response.data.data.result)
@@ -46,6 +48,17 @@ export const actions: ActionTree<RootState, RootState> = {
       })
       .catch( (error)  => {
           console.log(error);
+      });
+  },
+  searchNFTs({ commit }, q) {
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=' + q)
+      .then( (response)  => {
+        if(response) {
+          commit('SET_NFT_SEARCH', response.data.data.result)
+        }
+      })
+      .catch( (error)  => {
+        console.log(error);
       });
   },
   editProfile({ commit }, {data, w_adress}) {

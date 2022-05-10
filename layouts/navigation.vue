@@ -36,13 +36,14 @@ export default {
     this.getUserBalance()
     this.getUserTransactions()
     this.$store.dispatch('getNFTs')
+    this.$store.dispatch('searchNFTs', 'doodles')
   },
   methods: {
     getUserBalance() {
       this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/get-balance/' + this.$store.state.user.wallet_address)
       .then( (response)  => {
           if(response) {
-            this.$store.dispatch('updateBalance', parseInt(response.data.data.balance)/1000000000000000000)
+            this.$store.dispatch('updateBalance', (parseInt(response.data.data.balance)/1000000000000000000).toFixed(5))
           }
       })
       .catch( (error)  => {

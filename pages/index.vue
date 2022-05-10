@@ -15,78 +15,76 @@
         </div>
         <div class="discover-nft-random margin-t-20">
             <div class="content-NFTs-body">
-                <!-- item-card-nft -->
-                <div class="item-card-nft" v-if="this.$store.state.nfts">
-                    <picture>
-                        <source :srcset="getImage(parseNftMetaData(this.$store.state.nfts[0].metadata).image)" type="image/webp">
-                        <img class="big-image" :src="getImage(parseNftMetaData(this.$store.state.nfts[0].metadata).image)" alt="">
-                    </picture>
-                    <div class="counterdown">
-                        <!-- <span>08H</span>
-                        <span>38M</span> -->
-                        <span>16S</span>
-                    </div>
-                    <div class="btn-like-click">
-                        <div class="btnLike">
-                            <input type="checkbox" checked>
-                            <span class="count-likes">197</span>
-                            <i class="ri-heart-3-line"></i>
-                        </div>
-                    </div>
-                    <a href="" class="un-info-card">
-                        <div class="block-left">
-                            <h4>{{ parseNftMetaData(this.$store.state.nfts[0].metadata).name }}</h4>
-                            <div class="user">
-                                <picture>
-                                    <source srcset="~/assets/images/avatar/19.webp" type="image/webp">
-                                    <img class="img-avatar" src="~/assets/images/avatar/19.jpg" alt="">
-                                </picture>
-                                <h5>Julian Co. </h5>
-                            </div>
-                        </div>
-                        <div class="block-right">
-                            <h6>Starting Bid</h6>
-                            <p>
-                                <span>($3,650)</span>
-                                1.50 ETH
-                            </p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- item-sm-card-NFTs -->
-                <a href="#" class="item-sm-card-NFTs" v-for="nft in this.$store.state.nfts" :key="nft.hash" @click="showNft(nft)">
-                    <div class="cover-image">
+                <div v-for="(nft, index) in this.$store.state.nfts" :key="index" :class="getClass(index)">
+                    <div v-if="modulo(index)">
                         <picture>
                             <source :srcset="getImage(parseNftMetaData(nft.metadata).image)" type="image/webp">
                             <img class="big-image" :src="getImage(parseNftMetaData(nft.metadata).image)" alt="">
                         </picture>
-                        <div class="content-text">
-                            <div class="btn-like-click">
-                                <div class="btnLike">
-                                    <input type="checkbox">
-                                    <span class="count-likes">14</span>
-                                    <i class="ri-heart-3-line"></i>
+                        <div class="counterdown">
+                            <span>08H</span>
+                            <span>38M</span>
+                            <span>16S</span>
+                        </div>
+                        <div class="btn-like-click">
+                            <div class="btnLike">
+                                <input type="checkbox" checked>
+                                <span class="count-likes">197</span>
+                                <i class="ri-heart-3-line"></i>
+                            </div>
+                        </div>
+                        <a href="" class="un-info-card">
+                            <div class="block-left">
+                                <h4>{{ parseNftMetaData(nft.metadata).name }}</h4>
+                                <div class="user">
+                                    <picture>
+                                        <source srcset="~/assets/images/avatar/19.webp" type="image/webp">
+                                        <img class="img-avatar" src="~/assets/images/avatar/19.jpg" alt="">
+                                    </picture>
+                                    <h5>Julian Co. </h5>
+                                </div>
+                            </div>
+                            <div class="block-right">
+                                <h6>Starting Bid</h6>
+                                <p>
+                                    <span>($3,650)</span>
+                                    1.50 ETH
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div v-else>
+                        <div class="cover-image">
+                            <picture>
+                                <source :srcset="getImage(parseNftMetaData(nft.metadata).image)" type="image/webp">
+                                <img class="big-image" :src="getImage(parseNftMetaData(nft.metadata).image)" alt="">
+                            </picture>
+                            <div class="content-text">
+                                <div class="btn-like-click">
+                                    <div class="btnLike">
+                                        <input type="checkbox">
+                                        <span class="count-likes">14</span>
+                                        <i class="ri-heart-3-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-text">
+                                <div class="user-avatar">
+                                    <!-- <picture>
+                                        <source srcset="~/assets/images/avatar/10.webp" type="image/webp">
+                                        <img class="sm-user" src="~/assets/images/avatar/10.jpg" alt="">
+                                    </picture> -->
+                                    <span>{{ parseNftMetaData(nft.metadata).name }}</span>
+                                </div>
+                                <div class="number-eth">
+                                    <span class="main-price">1.50 ETH</span>
+                                    <span>($3,650)</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="user-text">
-                            <div class="user-avatar">
-                                <!-- <picture>
-                                    <source srcset="~/assets/images/avatar/10.webp" type="image/webp">
-                                    <img class="sm-user" src="~/assets/images/avatar/10.jpg" alt="">
-                                </picture> -->
-                                <span>{{ parseNftMetaData(nft.metadata).name }}</span>
-                            </div>
-                            <div class="number-eth">
-                                <span class="main-price">1.50 ETH</span>
-                                <span>($3,650)</span>
-                            </div>
-                        </div>
                     </div>
-                </a>
-
-
+                </div>
             </div>
         </div>
     </section>
@@ -214,6 +212,12 @@ export default Vue.extend({
         },
         getImage(value: string) {
             return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
+        },
+        modulo(n:number) {
+            return n%5 === 0
+        },
+        getClass(n:number) {
+            return this.modulo(n) ? 'item-card-nft' : 'item-sm-card-NFTs'
         }
     }
 })
