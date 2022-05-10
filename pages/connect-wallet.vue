@@ -29,7 +29,12 @@ export default Vue.extend({
       ],
     }
   },
-  mounted() {},
+  mounted() {
+    const user = window.Moralis.User.current();
+    if (user) {
+      this.getUser(user.get("ethAddress"))
+    }
+  },
 
   methods: {
     async login() {
@@ -51,15 +56,14 @@ export default Vue.extend({
     },
 
     async register(wallet_address) {
-      try {
-        await this.$axios.post('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/register', {
-          'wallet_address': wallet_address
+      this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/add/' + wallet_address)
+        .then( (data)  => {
+          this.$store.dispatch('updateUser', data.data.user)
+          this.$router.push('/')
         })
-         this.$store.dispatch('updateUser', data.data.user)
-        this.$router.push('/')
-      } catch (error) {
-        console.log(error)
-      }
+        .catch( (error)  => {
+          console.log(error);
+        });
     },
 
     getUser(wallet_address) {
@@ -70,7 +74,7 @@ export default Vue.extend({
            this.$store.dispatch('updateUser', data.data.user)
           this.$router.push('/')
         }else {
-          this.register(user.get("ethAddress"))
+          this.register(wallet_address)
         }
       })
       .catch( (error)  => {

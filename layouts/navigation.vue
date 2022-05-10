@@ -42,11 +42,11 @@ export default {
       this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/get-balance/' + this.$store.state.user.wallet_address)
       .then( (response)  => {
           if(response) {
-              this.$store.dispatch('updateBalance', parseInt(response.data.data.balance)/1000000000000000000)
+            this.$store.dispatch('updateBalance', parseInt(response.data.data.balance)/1000000000000000000)
           }
       })
       .catch( (error)  => {
-          console.log(error);
+        console.log(error);
       });
     },
 
@@ -58,7 +58,7 @@ export default {
           }
       })
       .catch( (error)  => {
-          console.log(error);
+        console.log(error);
       });
     },
 
