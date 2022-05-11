@@ -8,6 +8,7 @@
     </div>
     <BottomNavigation :selected="$nuxt.$route.name"/>
   </div>
+  <MintNftModal/>
   <MenuSideBar/>
 </div>
 </template>

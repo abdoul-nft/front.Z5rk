@@ -4,7 +4,7 @@
         <div class="icon-app">
             <picture>
                 <source :srcset="require(`../assets/images/icons/${icon}.webp`)" type="image/webp">
-                <img :src="require(`../assets/images/icons/${icon}.webp`)" :alt="icon">
+                <img :src="require(`../assets/images/icons/${icon}.png`)" :alt="icon">
             </picture>
         </div>
         <h2 class="text-name">{{name}}</h2>

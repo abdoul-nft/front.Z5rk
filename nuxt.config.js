@@ -13,6 +13,10 @@ export default {
     ],
     script: [
       {
+        // https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js
+        src: "https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js",
+      },
+      {
         // https://unpkg.com/moralis/dist/moralis.js
         src: "https://unpkg.com/moralis/dist/moralis.js",
       },
