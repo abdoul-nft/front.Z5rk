@@ -37,48 +37,13 @@
                         placeholder='e. g. "After purchasing you’ll be able to get ..."'></textarea>
                 </div>
             </section>
-
-            <!-- <section class="un-activity-toggle">
-                <nav class="nav flex-column">
-                    <div class="nav-link border-0 px-0 mb-0 pt-1">
-                        <div class="text">
-                            <h2>Put on sale</h2>
-                            <p>You’ll receive bids on this item</p>
-                        </div>
-                        <label class="switch_toggle toggle_lg" for="swithDefault">
-                            <input type="checkbox" checked id="swithDefault">
-                            <span class="handle"></span>
-                        </label>
-                    </div>
-                    <div class="nav-link border-0 px-0 mb-0">
-                        <div class="text">
-                            <h2>Instant sale price</h2>
-                            <p>Enter the price for which the item will be instantly sold</p>
-                        </div>
-                        <label class="switch_toggle toggle_lg" for="swithDefault2">
-                            <input type="checkbox" id="swithDefault2">
-                            <span class="handle"></span>
-                        </label>
-                    </div>
-                    <div class="nav-link border-0 px-0 mb-0">
-                        <div class="text">
-                            <h2>Unlock once purchased</h2>
-                            <p>Content will be unlocked after successful transaction</p>
-                        </div>
-                        <label class="switch_toggle toggle_lg" for="swithDefault3">
-                            <input type="checkbox" id="swithDefault3">
-                            <span class="handle"></span>
-                        </label>
-                    </div>
-                </nav>
-            </section> -->
             
             <div class="space-sticky-footer"></div>
             <footer class="footer-pages-forms">
                 <div class="content">
                     <div class="update-auto">
                         <div class="auto-saving">
-                            <div class="loader-items">
+                            <div class="loader-items" v-if="loading">
                                 <div class="lds-spinner">
                                     <div></div>
                                     <div></div>
@@ -94,7 +59,8 @@
                                     <div></div>
                                 </div>
                             </div>
-                            <span>auto-saving</span>
+                            <span v-if="success" class="text-success">Mint with success !</span>
+                            <span v-else>{{ loading ? 'Minting' : '' }}</span>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-bid-items">
@@ -127,21 +93,20 @@ export default Vue.extend({
         nft_contract_address: "0x0Fb6EF3505b9c52Ed39595433a21aF9B5FCc4431", // NFT Minting Contract Use This One "Batteries Included", code of this contract is in the github repository under contract_base for your reference.
         web3: null,
         w_address: '',
+        loading: false,
+        success: false,
     }
   },
   mounted() {
     const { wallet_address } = this.$store.state.user
     this.w_address = wallet_address
     this.web3 = new Web3(window.ethereum)
-    console.log(this.w_address)
   },
   methods: {
     async handleSubmit(e) {
         e.preventDefault()
-
+        this.loading = true
         try {
-            // const fileInput = document.getElementById("file");
-            // const data = fileInput.files[0];
             const imageFile = new Moralis.File(this.nft.file.name, this.nft.file);
             
             await imageFile.saveIPFS();
@@ -151,14 +116,15 @@ export default Vue.extend({
                 "description": this.nft.description,
                 "image": imageURI
             }
-            console.log('metadata txt => ', metadata)
+
             const metadataFile = new Moralis.File("metadata.json", {base64 : btoa(JSON.stringify(metadata))});
             await metadataFile.saveIPFS();
             const metadataURI = metadataFile.ipfs();
-            console.log('metadataURI txt => ', metadataURI)
-            const txt = await this.mintToken(metadataURI).then(console.log('minted'))
-            console.log('minted txt => ', txt)
+            const txt = await this.mintToken(metadataURI)
+            this.loading = false
+            this.success = true
         } catch(err) {
+            this.loading = false
             console.log(err)
         }
     },
@@ -176,7 +142,7 @@ export default Vue.extend({
         
             const transactionParameters = {
                 to: this.nft_contract_address,
-                from: '0x0d6bd7c8cc01390ea66c2c0e6cfda5ff042d1659',
+                from: ethereum.selectedAddress,
                 data: encodedFunction
             };
             const txt = await ethereum.request({
@@ -185,6 +151,7 @@ export default Vue.extend({
             });
             return txt
         } catch(err) {
+            this.loading = false
             console.log(err)
         }
     },
