@@ -7,7 +7,7 @@ export const state = () => ({
   mode: 'light',
   nfts: null,
   nftSearchResult: null,
-  
+  currentNFT: null,
 })
 
 export type RootState = ReturnType<typeof state>
@@ -23,6 +23,7 @@ export const mutations: MutationTree<RootState> = {
   SET_MODE: (state) => (state.mode = state.mode ? 'light' : 'dark'),
   SET_NFTS: (state, newVal: any) => (state.nfts = newVal),
   SET_NFT_SEARCH: (state, newVal: any) => (state.nftSearchResult = newVal),
+  SET_CURRENT_NFT: (state, newVal: any) => (state.currentNFT = newVal),
   SHOW_SOMETHING: () => (console.log('ok')),
 }
 
@@ -38,6 +39,9 @@ export const actions: ActionTree<RootState, RootState> = {
   },
   changeMode({ commit }) {
     commit('SET_MODE')
+  },
+  updateCurrentNFT({ commit }, newVal) {
+    commit('SET_CURRENT_NFT', newVal)
   },
   getNFTs({ commit }) {
     this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=clonex')
@@ -75,6 +79,30 @@ export const actions: ActionTree<RootState, RootState> = {
   },
   getCurrentUser({ commit }, w_adress) {
     this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/account/' + w_adress)
+    .then( (data)  => {
+      if(data.data.user) {
+        commit('SET_USER', data.data.user)
+      }
+    })
+    .catch( (error)  => {
+      console.log(error);
+    });
+  },
+
+  getNftOwners({ commit }, w_adress) {
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/account/' + w_adress)
+    .then( (data)  => {
+      if(data.data.user) {
+        commit('SET_USER', data.data.user)
+      }
+    })
+    .catch( (error)  => {
+      console.log(error);
+    });
+  },
+
+  getNftFloorPrice({ commit }, w_adress) {
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nft-price/' + w_adress)
     .then( (data)  => {
       if(data.data.user) {
         commit('SET_USER', data.data.user)

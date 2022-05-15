@@ -30,7 +30,7 @@
                                 <div class="head-balance">
                                     <h4>My Balance</h4>
                                     <a class="btn link-addBalance" data-bs-toggle="modal" data-bs-dismiss="modal"
-                                        data-bs-target="#mdllAddETH">
+                                        data-bs-target="#mdllAddETH" aria-label="Close">
                                         <i class="ri-add-fill"></i>
                                     </a>
                                 </div>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <button type="button" class="btn btn-sm-size bg-white text-dark rounded-pill"
-                            data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#mdllUploadItem">
+                            data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#mdllUploadItem" aria-label="Close">
                             Create
                         </button>
                     </div>
@@ -48,7 +48,7 @@
                 <div class="modal-body">
                     <ul class="nav flex-column -active-links">
                         <li class="nav-item">
-                            <a class="nav-link" @click="$nuxt.$router.push('/')">
+                            <a class="nav-link" data-bs-dismiss="modal" aria-label="Close" @click="$nuxt.$router.push('/')">
                                 <div class="icon_current">
                                     <i class="ri-compass-line"></i>
                                 </div>
@@ -60,7 +60,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" @click="$nuxt.$router.push('/search')">
+                            <a class="nav-link" data-bs-dismiss="modal" aria-label="Close" @click="$nuxt.$router.push('/search')">
                                 <div class="icon_current">
                                     <i class="ri-home-5-line"></i>
                                 </div>
@@ -76,7 +76,7 @@
                         <label class="title__label">other</label>
 
                         <li class="nav-item">
-                            <a @click="$nuxt.$router.push('/')" class="nav-link">
+                            <a data-bs-dismiss="modal" aria-label="Close" @click="logOut" class="nav-link">
                                 <div class="icon_current">
                                     <i class="ri-logout-box-r-line"></i>
                                 </div>
@@ -110,5 +110,13 @@
 <script>
 export default {
   name: 'MenuSideBar',
+  methods : {
+        async  logOut() {
+            await  window.Moralis.User.logOut();
+            console.log("logged out");
+            this.$store.dispatch('updateUser', null)
+            this.$router.push('/connect-wallet')
+        }
+    }
 }
 </script>

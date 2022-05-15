@@ -8,12 +8,12 @@
             <div class="head">
                 <div class="cover-image d-flex align-items-center justify-content-center overlay">
                     <picture>
-                        <source srcset="~/assets/images/other/20.webp" type="image/webp">
-                        <img src="~/assets/images/other/20.jpg" alt="cover image">
+                        <source :srcset="coverUrl != '' ? coverUrl : (coverImage() ? user.cover_image : require(`../assets/images/avatar/20.jpg`))" type="image/webp">
+                        <img :src="coverUrl != '' ? coverUrl : (coverImage() ? user.cover_image : require(`../assets/images/avatar/20.jpg`))" alt="cover image">
                     </picture>
                     <div class="position-absolute">
                         <button type="button" class="btn btn-upload-text">
-                            <input type="file">
+                            <input @change="onCovertChange" type="file">
                             <span>Upload cover photo</span>
                         </button>
                     </div>
@@ -22,12 +22,12 @@
                     <div class="d-flex align-items-center">
                         <div class="user-img d-flex align-items-center justify-content-center position-relative">
                             <picture>
-                                <source srcset="~/assets/images/avatar/avatar.webp" type="image/webp">
-                                <img src="~/assets/images/avatar/avatar.png" alt="creator image">
+                                <source :srcset="profileUrl != '' ? profileUrl : (profileImage() ? user.profile_photo : require(`../assets/images/avatar/avatar.png`))" type="image/webp">
+                                <img :src="profileUrl != '' ? profileUrl : (profileImage() ? user.profile_photo : require(`../assets/images/avatar/avatar.png`))" alt="creator image">
                             </picture>
                             <div class="position-absolute">
                                 <button type="button" class="btn btn-upload-icon">
-                                    <input type="file">
+                                    <input @change="onProfileChange" type="file">
                                     <div class="icon">
                                         <i class="ri-camera-line"></i>
                                     </div>
@@ -100,12 +100,28 @@
 
         <footer class="footer-pages-forms">
             <div class="content">
-                <div class="links-clear-data">
-                    <a href="page-collectibles-details.html" class="link-clear">
-                        <i class="ri-close-circle-line"></i>
-                        <span>Clear all</span>
-                    </a>
-                </div>
+                <div class="update-auto">
+                        <div class="auto-saving">
+                            <div class="loader-items" v-if="loading">
+                                <div class="lds-spinner">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <span v-if="success" class="text-success">Save with success !</span>
+                            <span v-else>{{ loading ? 'Saving' : '' }}</span>
+                        </div>
+                    </div>
                 <button type="submit" aria-label="profile" class="btn btn-bid-items">
                     <p>Update Profile</p>
                     <div class="ico">
@@ -118,7 +134,7 @@
 </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -131,19 +147,64 @@ export default Vue.extend({
             username: '',
             bio: '',
             email: '',
+            cover_image: '',
+            profile_photo: '',
             twitter_username: '',
             instagram_username: '',
-        },    
+        },
+        profile: null,
+        cover: null,
+        profileUrl: '',
+        coverUrl: '',
+        loading: false,
+        success: false
     }
   },
   mounted() {
-    const { username, bio, email, twitter_username, instagram_username } = this.$store.state.user
-    this.user = { username, bio, email, twitter_username, instagram_username }
+    const { username, bio, email, twitter_username, instagram_username, cover_image, profile_photo } = this.$store.state.user
+    this.user = { username, bio, email, twitter_username, instagram_username, cover_image, profile_photo }
   },
   methods: {
-    handleSubmit(e: any){
+    async handleSubmit(e){
         e.preventDefault();
-        this.$store.dispatch('editProfile', { w_adress: this.$store.state.user.wallet_address,  data: this.user })
+        this.loading = true
+        try {
+            if(this.profile) {
+                const profileImageFile = new Moralis.File(this.profile.name, this.profile);
+                await profileImageFile.saveIPFS();
+                const profileImageURI = profileImageFile.ipfs();
+                this.user.profile_photo = profileImageURI
+            }
+            if(this.cover) {
+                const coverImageFile = new Moralis.File(this.cover.name, this.cover);
+                await coverImageFile.saveIPFS();
+                const coverImageURI = coverImageFile.ipfs();
+                this.user.cover_image = coverImageURI
+            }
+            
+            await this.$store.dispatch('editProfile', { w_adress: this.$store.state.user.wallet_address,  data: this.user })
+            
+            this.loading = false
+            this.success = true
+        } catch(err) {
+            this.loading = false
+            console.log(err)
+        }
+
+    },
+    onProfileChange(e) {
+      this.profile = e.target.files[0];
+      this.profileUrl = URL.createObjectURL(this.profile);
+    },
+    onCovertChange(e) {
+      this.cover = e.target.files[0];
+      this.coverUrl = URL.createObjectURL(this.cover);
+    },
+    coverImage() {
+        return this.user.cover_image != undefined && this.user.cover_image != '' && this.user.cover_image != null
+    },
+    profileImage() {
+        return this.user.profile_photo != undefined && this.user.profile_photo != '' && this.user.profile_photo != null
     }
   },
 })
