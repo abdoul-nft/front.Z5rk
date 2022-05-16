@@ -38,6 +38,7 @@ export default {
     this.getUserTransactions()
     this.$store.dispatch('getNFTs')
     this.$store.dispatch('searchNFTs', 'doodles')
+    this.$store.dispatch('getCreators')
   },
   methods: {
     getUserBalance() {

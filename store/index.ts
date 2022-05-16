@@ -2,12 +2,15 @@ import { GetterTree, ActionTree, MutationTree } from 'vuex'
 
 export const state = () => ({
   user: null,
+  wallet_address: null,
   balance: null,
   transactions: null,
   mode: 'light',
   nfts: null,
   nftSearchResult: null,
   currentNFT: null,
+  creators: null,
+  currentCreator: null,
   contractsAdresses: [
     {
       token_adress: "0x2a6327f7f83c16ead8c4a209ac9826d539280ffd",
@@ -29,7 +32,7 @@ export const state = () => ({
       token_adress: "0x3aa3370e67b9a76f2dfce0b5e49470699b565354",
       contract_adress: "0xdd04ba0254972CC736F6966c496B4941f02BD816"
     },
-  ]
+  ],
 })
 
 export type RootState = ReturnType<typeof state>
@@ -39,13 +42,18 @@ export const getters: GetterTree<RootState, RootState> = {
 }
 
 export const mutations: MutationTree<RootState> = {
-  SET_USER: (state, newVal: any) => (state.user = newVal),
+  SET_USER: (state, newVal: any) => {
+    state.user = newVal
+    state.wallet_address = newVal.wallet_address
+  },
   SET_BALANCE: (state, newVal: any) => (state.balance = newVal),
   SET_TRS: (state, newVal: any) => (state.transactions = newVal),
   SET_MODE: (state) => (state.mode = state.mode ? 'light' : 'dark'),
   SET_NFTS: (state, newVal: any) => (state.nfts = newVal),
+  SET_CREATORS: (state, newVal: any) => (state.creators = newVal),
   SET_NFT_SEARCH: (state, newVal: any) => (state.nftSearchResult = newVal),
   SET_CURRENT_NFT: (state, newVal: any) => (state.currentNFT = newVal),
+  SET_CURRENT_CREATOR: (state, newVal: any) => (state.currentCreator = newVal),
   SHOW_SOMETHING: () => (console.log('ok')),
 }
 
@@ -64,6 +72,9 @@ export const actions: ActionTree<RootState, RootState> = {
   },
   updateCurrentNFT({ commit }, newVal) {
     commit('SET_CURRENT_NFT', newVal)
+  },
+  updateCurrentCreator({ commit }, newVal) {
+    commit('SET_CURRENT_CREATOR', newVal)
   },
   getNFTs({ commit }) {
     this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=clonex')
@@ -110,7 +121,20 @@ export const actions: ActionTree<RootState, RootState> = {
       console.log(error);
     });
   },
-
+  getCreators({ commit, state }) {
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/get-creators')
+    .then( (data)  => {
+      if(data.data) {
+        if(data.data.data && data.data.data.length > 0) {
+          const result = data.data.data.filter( (user:any) => user.wallet_address != state.wallet_address)
+          commit('SET_CREATORS', result)
+        }
+      }
+    })
+    .catch( (error)  => {
+      console.log(error);
+    });
+  },
   getNftOwners({ commit }, w_adress) {
     this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/account/' + w_adress)
     .then( (data)  => {

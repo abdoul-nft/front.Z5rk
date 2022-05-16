@@ -33,7 +33,7 @@
                 <p>You can follow many Creators</p>
             </div>
             <div class="un-block-right">
-                <a href="page-creators.html" class="icon-back" aria-label="iconBtn">
+                <a @click="$nuxt.$router.push('/creators')" class="icon-back" aria-label="iconBtn">
                     <i class="ri-arrow-drop-right-line"></i>
                 </a>
             </div>
@@ -41,71 +41,20 @@
 
         <div class="content-list-creatores">
             <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="page-creator-profile.html">
+                <li v-for="(creator, index) in this.$store.state.creators" :key="index" class="nav-item">
+                    <a class="nav-link" @click="gotoCreatorDetails(creator)">
                         <div class="item-user-img">
                             <picture>
-                                <source srcset="~/assets/images/avatar/13.webp" type="image/webp">
-                                <img class="avt-img" src="~/assets/images/avatar/13.jpg" alt="">
+                                <source :srcset="creator.profile_photo ? creator.profile_photo : require(`../assets/images/avatar/13.jpg`)" type="image/webp">
+                                <img class="avt-img" :src="creator.profile_photo ? creator.profile_photo : require(`../assets/images/avatar/13.jpg`)" alt="">
                             </picture>
                             <div class="txt-user">
-                                <h5>Richard Noga</h5>
-                                <p>$9,500.32</p>
+                                <h5>{{creator.username}}</h5>
+                                <!-- <p>$9,500.32</p> -->
                             </div>
                         </div>
                         <div class="other-option">
                             <div class="color-text rounded-pill bg-snow btn-xs-size">44 Item</div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="page-creator-profile.html">
-                        <div class="item-user-img">
-                            <picture>
-                                <source srcset="~/assets/images/avatar/7.webp" type="image/webp">
-                                <img class="avt-img" src="~/assets/images/avatar/7.jpg" alt="">
-                            </picture>
-                            <div class="txt-user">
-                                <h5>Tito_Calab</h5>
-                                <p>$8,382.32</p>
-                            </div>
-                        </div>
-                        <div class="other-option">
-                            <div class="color-text rounded-pill bg-snow btn-xs-size">37 Item</div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="page-creator-profile.html">
-                        <div class="item-user-img">
-                            <picture>
-                                <source srcset="~/assets/images/avatar/4.webp" type="image/webp">
-                                <img class="avt-img" src="~/assets/images/avatar/4.jpg" alt="">
-                            </picture>
-                            <div class="txt-user">
-                                <h5>Settimio Loggia</h5>
-                                <p>$6,920.00</p>
-                            </div>
-                        </div>
-                        <div class="other-option">
-                            <div class="color-text rounded-pill bg-snow btn-xs-size">30 Item</div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="page-creator-profile.html">
-                        <div class="item-user-img">
-                            <picture>
-                                <source srcset="~/assets/images/avatar/1.webp" type="image/webp">
-                                <img class="avt-img" src="~/assets/images/avatar/1.jpg" alt="user">
-                            </picture>
-                            <div class="txt-user">
-                                <h5>Vinicius O.</h5>
-                                <p>$4,500.32</p>
-                            </div>
-                        </div>
-                        <div class="other-option">
-                            <div class="color-text rounded-pill bg-snow btn-xs-size">20 Item</div>
                         </div>
                     </a>
                 </li>
@@ -156,6 +105,10 @@ export default Vue.extend({
         gotoNftDetails(nft: any) {
             this.$store.dispatch('updateCurrentNFT', nft)
             this.$router.push ({name: 'nft-address', params: {address: nft.token_address}})
+        },
+        gotoCreatorDetails(creator: any) {
+            this.$store.dispatch('updateCurrentCreator', creator)
+            this.$router.push ({name: 'creator-address', params: {address: creator.wallet_address}})
         }
     }
 })
