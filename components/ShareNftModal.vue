@@ -133,7 +133,7 @@ export default {
       required: true
     },
     token_address: {
-      type: Object,
+      type: String,
       required: true
     }
   },

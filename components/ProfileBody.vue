@@ -13,19 +13,15 @@
         </div>
         <div class="statistics">
             <div class="text-grid">
-                <h4>35</h4>
+                <h4>{{ items }}</h4>
                 <p>Items</p>
             </div>
             <div class="text-grid">
-                <h4>2,3K</h4>
+                <h4>{{ likes }}</h4>
                 <p>Likes</p>
             </div>
             <div class="text-grid">
-                <h4>8.8K</h4>
-                <p>Views</p>
-            </div>
-            <div class="text-grid">
-                <h4>48</h4>
+                <h4>{{ minted }}</h4>
                 <p>Minted</p>
             </div>
 
@@ -51,6 +47,18 @@ export default {
       type: Boolean,
       required: true
     },
+    minted: {
+      type: Number,
+      required: true
+    },
+    likes: {
+      type: Number,
+      required: true
+    },
+    items: {
+      type: Number,
+      required: true
+    }
   },
   methods: {
     

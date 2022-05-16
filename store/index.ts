@@ -157,6 +157,19 @@ export const actions: ActionTree<RootState, RootState> = {
     .catch( (error)  => {
       console.log(error);
     });
+  },
+
+  saveMintedNft({ commit }, {w_adress, data}) {
+    this.$axios.post('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/mint/' + w_adress, data)
+    .then( (data)  => {
+      if(data.data.user) {
+        console.log(data.data.user)
+        // commit('SET_USER', data.data.user)
+      }
+    })
+    .catch( (error)  => {
+      console.log(error);
+    });
   }
 
 }

@@ -350,12 +350,10 @@ export default Vue.extend({
         async getToken() {
             try {
                 const { currentNFT } = this.$store.state
-                // const options = { address: currentNFT.token_address };
-                // const NFTLowestPrice = await Moralis.Web3API.token.getNFTLowestPrice(options);
-                const options = { address: currentNFT.token_address, chain: "testnet" };
-                const metaData = await Moralis.Web3API.token.getNFTMetadata(options);
-                // const nftTransfers = await Moralis.Web3API.token.getContractNFTTransfers(options);
-                console.log(metaData);
+                
+                const options = { chain: 'rinkeby', address: this.$store.state.user.wallet_address };
+                const testnetNFTs = await Moralis.Web3API.account.getNFTs(options);
+                console.log(testnetNFTs);
             }catch(err) {
                  console.log(err)
             }

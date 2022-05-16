@@ -5,7 +5,7 @@
             <div class="space-sticky"></div>
             <section class="un-create-collectibles">
                 <div class="form-group upload-form">
-                    <h2>Upload file</h2>
+                    <h2 @click="getNftMetadata">Upload file</h2>
                     <p>Choose your file to upload</p>
                     <div class="upload-input-form">
                         <input @change="onFileChange" type="file">
@@ -118,9 +118,19 @@ export default Vue.extend({
             }
 
             const metadataFile = new Moralis.File("metadata.json", {base64 : btoa(JSON.stringify(metadata))});
+            
+            console.log('metadataFile => ', metadataFile)
+
             await metadataFile.saveIPFS();
             const metadataURI = metadataFile.ipfs();
+            
+            console.log('metadataURI => ', metadataURI)
+            
             const txt = await this.mintToken(metadataURI)
+
+            console.log('txt => ', txt)
+
+
             this.loading = false
             this.success = true
         } catch(err) {
@@ -132,9 +142,9 @@ export default Vue.extend({
     async mintToken(_uri){
         try {
             const encodedFunction = this.web3.eth.abi.encodeFunctionCall({
-            name: "mintToken",
-            type: "function",
-            inputs: [{
+                name: "mintToken",
+                type: "function",
+                inputs: [{
                     type: 'string',
                     name: 'tokenURI'
                 }]
@@ -155,6 +165,16 @@ export default Vue.extend({
             console.log(err)
         }
     },
+
+    // async getNftMetadata() {
+    //    try {
+    //       const options = { address: this.nft_contract_address};
+    //       const data = await Moralis.Web3API.token.getNFTMetadata(options);
+    //       console.log(data)
+    //     }catch(err) {
+    //       console.log(err)
+    //     }
+    // },
 
     onFileChange(e) {
       this.nft.file = e.target.files[0];

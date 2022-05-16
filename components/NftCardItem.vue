@@ -64,8 +64,7 @@ export default {
         return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
     },
     getNftFloorPrice() {
-        // https://sea-turtle-app-n8fhg.ondigitalocean.app
-        this.$axios.get('http://localhost:4000/v1/nft-price/' + this.nft.token_address)
+        this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/' + this.nft.token_address)
             .then( (data)  => {
                 if(data.data) {
                     this.floorPrice = this.convertToEthPrice(data.data.data.price)
