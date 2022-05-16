@@ -6,17 +6,17 @@
         <div class="un-block-right">
 
             <div class="un-notification">
-                <a href="#" aria-label="activity">
+                <a aria-label="activity">
                     <i class="ri-notification-line"></i>
                 </a>
                 <span class="bull-activity"></span>
             </div>
 
             <div class="un-user-profile">
-                <a href="#" aria-label="profile">
+                <a @click="$nuxt.$router.push('/my-profile')" aria-label="profile">
                     <picture>
-                        <source srcset="~/assets/images/avatar/11.webp" type="image/webp">
-                        <img class="img-avatar" src="~/assets/images/avatar/11.jpg" alt="">
+                        <source :srcset="$store.state.user.profile_photo ? $store.state.user.profile_photo : require(`../assets/images/avatar/11.jpg`)" type="image/webp">
+                        <img class="img-avatar" :src="$store.state.user.profile_photo ? $store.state.user.profile_photo : require(`../assets/images/avatar/11.jpg`)" alt="">
                     </picture>
                 </a>
             </div>

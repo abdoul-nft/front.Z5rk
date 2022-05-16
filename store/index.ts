@@ -8,6 +8,28 @@ export const state = () => ({
   nfts: null,
   nftSearchResult: null,
   currentNFT: null,
+  contractsAdresses: [
+    {
+      token_adress: "0x2a6327f7f83c16ead8c4a209ac9826d539280ffd",
+      contract_adress: "0x3eC9C3cB29Ed95A396A48a4fBDb6b8546d001D5A"
+    },
+    {
+      token_adress: "0x2be2405a991f4c7ada8affb421288f8352f6a2cd",
+      contract_adress: "0x02b374a1A8Ff23D46CA99199f804Ce4cE2113fc4"
+    },
+    {
+      token_adress: "0xb70b21c611f348ab4ff79254236523299fd8a693",
+      contract_adress: "0xdd04ba0254972CC736F6966c496B4941f02BD816"
+    },
+    {
+      token_adress: "0xd2c26fd32358a749bba033fdc90ba39ad37df5ba",
+      contract_adress: "0xdd04ba0254972CC736F6966c496B4941f02BD816"
+    },
+    {
+      token_adress: "0x3aa3370e67b9a76f2dfce0b5e49470699b565354",
+      contract_adress: "0xdd04ba0254972CC736F6966c496B4941f02BD816"
+    },
+  ]
 })
 
 export type RootState = ReturnType<typeof state>

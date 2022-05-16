@@ -7,10 +7,10 @@
 
                     <!-- un-user-profile -->
                     <div class="un-user-profile">
-                        <div class="image_user">
+                        <div class="image_user" data-bs-dismiss="modal" aria-label="Close" @click="$nuxt.$router.push('/my-profile')">
                             <picture>
-                                <source srcset="~/assets/images/avatar/11.webp" type="image/webp">
-                                <img src="~/assets/images/avatar/11.jpg" alt="image">
+                                <source :srcset="$store.state.user.profile_photo ? $store.state.user.profile_photo : require(`../assets/images/avatar/11.jpg`)" type="image/webp">
+                                <img :src="$store.state.user.profile_photo ? $store.state.user.profile_photo : require(`../assets/images/avatar/11.jpg`)" alt="image">
                             </picture>
                         </div>
                         <div class="text-user">

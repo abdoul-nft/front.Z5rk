@@ -8,9 +8,9 @@
                     <img class="img-full" :src="getImage(parseNftMetaData($store.state.currentNFT.metadata).image)" alt="">
                 </picture>
                 <div class="action-sticky">
-                    <button type="button" class="btn btn-fullScreen">
+                    <!-- <button type="button" class="btn btn-fullScreen">
                         <i class="ri-fullscreen-fill"></i>
-                    </button>
+                    </button> -->
                     <button type="button" class="btn btn-share" data-bs-toggle="modal"
                         data-bs-target="#mdllShareCollectibles">
                         <i class="ri-share-forward-line"></i>
@@ -23,7 +23,7 @@
                     <h1>{{ parseNftMetaData($store.state.currentNFT.metadata).name }}</h1>
                     <!-- <p>12 Editions Minted</p> -->
                 </div>
-                <!-- <span class="btn-xs-size bg-pink text-white rounded-pill">Sports</span> -->
+                <span class="btn-xs-size bg-pink text-white rounded-pill">{{ $store.state.currentNFT.contract_type }}</span>
             </div>
 
             <div class="txt-price-coundown d-flex justify-content-between">
@@ -31,10 +31,10 @@
                     <h2>Starting Bid</h2>
                     <p>2.3 <span class="size-16">ETH</span> <span class="dollar">($8,350)</span></p>
                 </div>
-                <!-- <div class="coundown">
-                    <h3>Auction Ends In</h3>
-                    <span>08H 38M 16S</span>
-                </div> -->
+                <div class="coundown">
+                    <h3>Auction Ends</h3>
+                    <span>{{ formatDate($store.state.currentNFT.synced_at) }}</span>
+                </div>
             </div>
         </div>
         <!-- body -->
@@ -280,7 +280,7 @@
                         <i class="ri-arrow-right-line"></i>
                     </a>
                 </div>
-                <a @click="getNftAsset" class="btn btn-bid-items">
+                <a @click="getToken" class="btn btn-bid-items">
                     <p>Place a bid</p>
                     <div class="ico">
                         <i class="ri-arrow-drop-right-line"></i>
@@ -288,13 +288,13 @@
                 </a>
             </div>
         </div>
-
+        <ShareNftModal :token_address="$store.state.currentNFT.token_address" :nft="parseNftMetaData($store.state.currentNFT.metadata)"/>
     </section>
 </template>
 
 <script>
 import Vue from 'vue'
-
+import moment from 'moment';
 export default Vue.extend({
   middleware: 'auth',
   layout: 'details',
@@ -332,18 +332,37 @@ export default Vue.extend({
 
         async getNftAsset() {
             try {
-                const testnetNFTs = await window.Moralis.Web3.getNFTs({ chain: 'testnet' });
-                // const { currentNFT } = this.$store.state
-                // const options = {
-                //     network: 'testnet',
-                //     tokenAddress: '0x2a6327f7f83c16ead8c4a209ac9826d539280ffd',
-                //     tokenId: '1',
-                // }
-                // console.log(options)
-                // const data = await Moralis.Plugins.opensea.getAsset(options)
-                console.log(testnetNFTs)
+                // const testnetNFTs = await window.Moralis.Web3.getNFTs({ chain: 'testnet' });
+                const { currentNFT } = this.$store.state
+                const options = {
+                    network: 'testnet',
+                    tokenAddress: currentNFT.token_address,
+                    tokenId: currentNFT.token_id,
+                }
+                console.log(options)
+                const data = await Moralis.Plugins.opensea.getAsset(options)
+                console.log(data)
             }catch(err) {
                  console.log(err)
+            }
+        },
+
+        async getToken() {
+            try {
+                const { currentNFT } = this.$store.state
+                // const options = { address: currentNFT.token_address };
+                // const NFTLowestPrice = await Moralis.Web3API.token.getNFTLowestPrice(options);
+                const options = { address: currentNFT.token_address, chain: "testnet" };
+                const metaData = await Moralis.Web3API.token.getNFTMetadata(options);
+                // const nftTransfers = await Moralis.Web3API.token.getContractNFTTransfers(options);
+                console.log(metaData);
+            }catch(err) {
+                 console.log(err)
+            }
+        },
+        formatDate(value) {
+            if (value) {
+                return moment(String(value)).format('DD/MM/YYYY')
             }
         }
   }

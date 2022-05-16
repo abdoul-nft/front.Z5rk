@@ -8,7 +8,7 @@
                 <div class="input_group">
                     <input type="text" class="form-control size-11 weight-500"
                         :value="$store.state.user.wallet_address">
-                    <button type="button" class="btn btn-copy">
+                    <button type="button" class="btn btn-copy" @click="$copyText($store.state.user.wallet_address)">
                         <i class="ri-file-copy-2-line"></i>
                     </button>
                 </div>

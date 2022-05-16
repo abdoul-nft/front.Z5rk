@@ -4,17 +4,17 @@
       <!-- head -->
       <div class="head">
           <div class="my-personal-account">
-              <div class="user">
+              <div class="user" @click="$nuxt.$router.push('/my-profile')">
                   <picture>
-                      <source srcset="~/assets/images/avatar/11.webp" type="image/webp">
-                      <img src="~/assets/images/avatar/11.jpg" alt="">
+                      <source :srcset="$store.state.user.profile_photo ? $store.state.user.profile_photo : require(`../assets/images/avatar/11.jpg`)" type="image/webp">
+                      <img :src="$store.state.user.profile_photo ? $store.state.user.profile_photo : require(`../assets/images/avatar/11.jpg`)" alt="">
                   </picture>
                   <div class="txt-user">
                       <h1>{{ $store.state.user.username }}</h1>
                      <p>{{ $store.state.user.wallet_address.slice(0, 15) + '...' }}</p>
                   </div>
               </div>
-              <button type="button" class="btn btn-copy-address">
+              <button type="button" class="btn btn-copy-address" @click="$copyText($store.state.user.wallet_address)">
                   <input type="checkbox">
                   <div class="icon-box">
                       <i class="ri-file-copy-2-line"></i>
