@@ -304,10 +304,11 @@ export default Vue.extend({
         return (parseInt(value)/1000000000000000000).toFixed(3)
     },
     convertToUsd() {
-        return 1928.61 * this.floorPrice
+        return 405.64 * this.floorPrice
     },
     gotoNftDetails(nft) {
         this.$store.dispatch('updateCurrentNFT', nft)
+        this.$store.dispatch('updateCurrentNftContractItem', nft.token_address)
         this.$router.push ({name: 'nft-address', params: {address: nft.token_address}})
     },
   }

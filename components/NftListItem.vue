@@ -72,7 +72,7 @@ export default {
         return (parseInt(value)/1000000000000000000).toFixed(3)
     },
     convertToUsd() {
-        return 1928.61 * this.floorPrice
+        return 405.64 * this.floorPrice
     }
   }
 }

@@ -90,7 +90,6 @@ export default Vue.extend({
             file: null,
         },
         fileUrl: '',
-        nft_contract_address: "0x0Fb6EF3505b9c52Ed39595433a21aF9B5FCc4431", // NFT Minting Contract Use This One "Batteries Included", code of this contract is in the github repository under contract_base for your reference.
         web3: null,
         w_address: '',
         loading: false,
@@ -151,7 +150,7 @@ export default Vue.extend({
             }, [_uri]);
         
             const transactionParameters = {
-                to: this.nft_contract_address,
+                to: this.$store.state.globalNftContractAddress,
                 from: ethereum.selectedAddress,
                 data: encodedFunction
             };
@@ -168,7 +167,7 @@ export default Vue.extend({
 
     // async getNftMetadata() {
     //    try {
-    //       const options = { address: this.nft_contract_address};
+    //       const options = { address: this.$store.state.globalNftContractAddress};
     //       const data = await Moralis.Web3API.token.getNFTMetadata(options);
     //       console.log(data)
     //     }catch(err) {

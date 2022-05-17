@@ -114,7 +114,7 @@ export default {
         async  logOut() {
             await  window.Moralis.User.logOut();
             console.log("logged out");
-            this.$store.dispatch('updateUser', null)
+            // this.$store.dispatch('updateUser', null)
             this.$router.push('/connect-wallet')
         }
     }

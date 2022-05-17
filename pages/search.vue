@@ -120,6 +120,7 @@ export default Vue.extend({
     },
     gotoNftDetails(nft: any) {
         this.$store.dispatch('updateCurrentNFT', nft)
+        this.$store.dispatch('updateCurrentNftContractItem', nft.token_address)
         this.$router.push ({name: 'nft-address', params: {address: nft.token_address}})
     }
   }

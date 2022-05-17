@@ -9,6 +9,8 @@ export const state = () => ({
   nfts: null,
   nftSearchResult: null,
   currentNFT: null,
+  currentNftContractItem: null,
+  globalNftContractAddress: '0x0Fb6EF3505b9c52Ed39595433a21aF9B5FCc4431', // NFT Minting Contract Use This One "Batteries Included", code of this contract is in the github repository under contract_base for your reference.
   creators: null,
   currentCreator: null,
   contractsAdresses: [
@@ -53,6 +55,7 @@ export const mutations: MutationTree<RootState> = {
   SET_CREATORS: (state, newVal: any) => (state.creators = newVal),
   SET_NFT_SEARCH: (state, newVal: any) => (state.nftSearchResult = newVal),
   SET_CURRENT_NFT: (state, newVal: any) => (state.currentNFT = newVal),
+  SET_CURRENT_NFT_CONTRACT_ITEM: (state, newVal: any) => (state.currentNftContractItem = newVal),
   SET_CURRENT_CREATOR: (state, newVal: any) => (state.currentCreator = newVal),
   SHOW_SOMETHING: () => (console.log('ok')),
 }
@@ -75,6 +78,10 @@ export const actions: ActionTree<RootState, RootState> = {
   },
   updateCurrentCreator({ commit }, newVal) {
     commit('SET_CURRENT_CREATOR', newVal)
+  },
+  updateCurrentNftContractItem({ commit, state }, t_adress) {
+    const newVal = state.contractsAdresses.find((item:any) => item.token_adress == t_adress)
+    commit('SET_CURRENT_NFT_CONTRACT_ITEM', newVal)
   },
   getNFTs({ commit }) {
     this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=clonex')

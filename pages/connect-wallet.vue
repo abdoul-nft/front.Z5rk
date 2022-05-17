@@ -70,7 +70,6 @@ export default Vue.extend({
       this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/auth/account/' + wallet_address)
       .then( (data)  => {
         if(data.data.user) {
-          console.log('data.data.user => ', data.data.user)
            this.$store.dispatch('updateUser', data.data.user)
           this.$router.push('/')
         }else {
