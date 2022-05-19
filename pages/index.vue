@@ -3,6 +3,45 @@
     <section class="loader-page hidden" id="loaderPage">
         <div class="spinner_flash"></div>
     </section>
+    <!-- <div class="border-sections-home"></div> -->
+
+    <section class="margin-t-20 unList-creatores">
+        <!-- un-title-default -->
+        <div class="un-title-default">
+            <div class="text">
+                <h2>Creators</h2>
+                <p>You can follow many Creators</p>
+            </div>
+            <div class="un-block-right">
+                <a @click="$nuxt.$router.push('/creators')" class="icon-back" aria-label="iconBtn">
+                    <i class="ri-arrow-drop-right-line"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-list-creatores">
+            <ul class="nav flex-column">
+                <li v-for="(creator, index) in this.$store.state.creators" :key="index" class="nav-item">
+                    <a class="nav-link" @click="gotoCreatorDetails(creator)">
+                        <div class="item-user-img">
+                            <picture>
+                                <source :srcset="creator.profile_photo ? creator.profile_photo : require(`../assets/images/avatar/13.jpg`)" type="image/webp">
+                                <img class="avt-img" :src="creator.profile_photo ? creator.profile_photo : require(`../assets/images/avatar/13.jpg`)" alt="">
+                            </picture>
+                            <div class="txt-user">
+                                <h5>{{creator.username}}</h5>
+                                <!-- <p>$9,500.32</p> -->
+                            </div>
+                        </div>
+                        <div class="other-option">
+                            <div class="color-text rounded-pill bg-snow btn-xs-size">44 Item</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    
     <section class="unSwiper-cards margin-t-20">
         <!-- un-title-default -->
         <div class="un-title-default">
@@ -40,45 +79,6 @@
                     <NftListItem v-else :nft="nft" />
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- <div class="border-sections-home"></div> -->
-
-    <section class="margin-t-20 unList-creatores">
-        <!-- un-title-default -->
-        <div class="un-title-default">
-            <div class="text">
-                <h2>Creators</h2>
-                <p>You can follow many Creators</p>
-            </div>
-            <div class="un-block-right">
-                <a @click="$nuxt.$router.push('/creators')" class="icon-back" aria-label="iconBtn">
-                    <i class="ri-arrow-drop-right-line"></i>
-                </a>
-            </div>
-        </div>
-
-        <div class="content-list-creatores">
-            <ul class="nav flex-column">
-                <li v-for="(creator, index) in this.$store.state.creators" :key="index" class="nav-item">
-                    <a class="nav-link" @click="gotoCreatorDetails(creator)">
-                        <div class="item-user-img">
-                            <picture>
-                                <source :srcset="creator.profile_photo ? creator.profile_photo : require(`../assets/images/avatar/13.jpg`)" type="image/webp">
-                                <img class="avt-img" :src="creator.profile_photo ? creator.profile_photo : require(`../assets/images/avatar/13.jpg`)" alt="">
-                            </picture>
-                            <div class="txt-user">
-                                <h5>{{creator.username}}</h5>
-                                <!-- <p>$9,500.32</p> -->
-                            </div>
-                        </div>
-                        <div class="other-option">
-                            <div class="color-text rounded-pill bg-snow btn-xs-size">44 Item</div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
         </div>
     </section>
   </div>

@@ -112,7 +112,7 @@ export default Vue.extend({
             return JSON.parse(value)
         },
         getImage(value: string) {
-            if(value) return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
+            if(value && value != undefined ) return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
             return ''
         },
         getClass(n:number) {

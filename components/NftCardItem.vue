@@ -4,18 +4,13 @@
             <source :srcset="getImage(parseNftMetaData(nft.metadata).image)" type="image/webp">
             <img class="big-image" :src="getImage(parseNftMetaData(nft.metadata).image)" alt="">
         </picture>
-        <!-- <div class="counterdown">
-            <span>08H</span>
-            <span>38M</span>
-            <span>16S</span>
-        </div>
-        <div class="btn-like-click">
+        <div class="counterdown"></div>
+        <div v-if="like" class="btn-like-click">
             <div class="btnLike">
-                <input type="checkbox" checked>
-                <span class="count-likes">197</span>
+                <input @change="removeFromFavoris" type="checkbox" checked>
                 <i class="ri-heart-3-line"></i>
             </div>
-        </div> -->
+        </div>
         <a href="" class="un-info-card">
             <div class="block-left">
                 <h4>{{ parseNftMetaData(nft.metadata).name }}</h4>
@@ -46,6 +41,9 @@ export default {
     nft: {
       type: Object,
       required: true
+    },
+    like: {
+        type: Boolean,
     }
   },
   data() {
@@ -57,6 +55,9 @@ export default {
       this.getNftFloorPrice()
   },
   methods: {
+    removeFromFavoris() {
+        console.log()
+    },
     parseNftMetaData(value) {
         return JSON.parse(value)
     },

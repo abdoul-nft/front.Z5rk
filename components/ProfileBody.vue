@@ -17,7 +17,7 @@
                 <p>Items</p>
             </div>
             <div class="text-grid">
-                <h4>{{ likes }}</h4>
+                <h4>{{ this.$store.state.likesNFTs.length }}</h4>
                 <p>Likes</p>
             </div>
             <div class="text-grid">

@@ -179,78 +179,39 @@
                     </div>
 
                     <div class="tab-pane fade" id="pills-Liked" role="tabpanel" aria-labelledby="pills-Liked-tab">
-                        <!-- item-card-gradual -->
-                        <div class="item-card-gradual">
+                        
+                        <div v-for="(nft, index) in this.$store.state.likesNFTs" :key="index" class="item-card-gradual">
                             <div class="head-card d-flex justify-content-between align-items-center">
                                 <div class="creator-name">
-                                    <div class="image-user">
-                                        <picture>
-                                            <source srcset="~/assets/images/avatar/19.webp" type="image/webp">
-                                            <img class="img-avatar" src="~/assets/images/avatar/19.jpg" alt="">
-                                        </picture>
-                                        <div class="icon">
-                                            <i class="ri-checkbox-circle-fill"></i>
-                                        </div>
-                                    </div>
-                                    <h3>Hunter Taylor</h3>
+                                    <h3>{{ parseNftMetaData(nft.metadata).name }}</h3>
                                 </div>
                                 <div class="btn-like-click">
                                     <div class="btnLike">
                                         <input type="checkbox" checked>
-                                        <span class="count-likes">297</span>
                                         <i class="ri-heart-3-line"></i>
                                     </div>
                                 </div>
                             </div>
-                            <a href="page-collectibles-details.html" class="body-card py-0">
+                            <a @click="gotoNftDetails(nft)" class="body-card py-0">
                                 <div class="cover-nft">
                                     <picture>
-                                        <source srcset="~/assets/images/other/21.webp" type="image/webp">
-                                        <img class="img-cover" src="~/assets/images/other/21.jpg" alt="image NFT">
+                                        <source :srcset="getImage(parseNftMetaData(nft.metadata).image)" type="image/webp">
+                                        <img class="img-cover" :src="getImage(parseNftMetaData(nft.metadata).image)" alt="image NFT">
                                     </picture>
-                                    <div class="countdown-time">
-                                        <span>08H 38M 16S</span>
-                                    </div>
                                 </div>
                                 <div class="title-card-nft">
                                     <div class="side-one">
-                                        <h2>Ecstasy of the Dead</h2>
-                                        <p>350 Editions Minted</p>
+                                        <h2>{{ parseNftMetaData(nft.metadata).name }}</h2>
+                                        <!-- <p>8 Editions Minted</p> -->
                                     </div>
                                     <div class="side-other">
-                                        <span class="no-sales">9 for sale</span>
+                                        <!-- <span class="no-sales">3 for sale</span> -->
                                     </div>
                                 </div>
+
                             </a>
-                            <div class="footer-card">
-                                <div class="starting-bad">
-                                    <h4>1.79 ETH</h4>
-                                    <span>Starting Bid</span>
-                                </div>
-                                <button type="button"
-                                    class="btn btn-md-size effect-click bg-primary text-white rounded-pill">
-                                    Place a bid
-                                </button>
-                            </div>
                         </div>
 
-                        <!-- lds-spinner -->
-                        <div class="loader-items">
-                            <div class="lds-spinner">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

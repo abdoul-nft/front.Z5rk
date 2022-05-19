@@ -13,6 +13,7 @@ export const state = () => ({
   globalNftContractAddress: '0x0Fb6EF3505b9c52Ed39595433a21aF9B5FCc4431', // NFT Minting Contract Use This One "Batteries Included", code of this contract is in the github repository under contract_base for your reference.
   creators: null,
   currentCreator: null,
+  likesNFTs: null,
   contractsAdresses: [
     {
       token_adress: "0x2a6327f7f83c16ead8c4a209ac9826d539280ffd",
@@ -54,6 +55,7 @@ export const mutations: MutationTree<RootState> = {
   SET_NFTS: (state, newVal: any) => (state.nfts = newVal),
   SET_CREATORS: (state, newVal: any) => (state.creators = newVal),
   SET_NFT_SEARCH: (state, newVal: any) => (state.nftSearchResult = newVal),
+  SET_LIKED_NFTS: (state, newVal: any) => (state.likesNFTs = newVal),
   SET_CURRENT_NFT: (state, newVal: any) => (state.currentNFT = newVal),
   SET_CURRENT_NFT_CONTRACT_ITEM: (state, newVal: any) => (state.currentNftContractItem = newVal),
   SET_CURRENT_CREATOR: (state, newVal: any) => (state.currentCreator = newVal),
@@ -84,10 +86,22 @@ export const actions: ActionTree<RootState, RootState> = {
     commit('SET_CURRENT_NFT_CONTRACT_ITEM', newVal)
   },
   getNFTs({ commit }) {
-    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=clonex')
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=rtfkt')
       .then( (response)  => {
         if(response) {
           commit('SET_NFTS', response.data.data.result)
+        }
+      })
+      .catch( (error)  => {
+          console.log(error);
+      });
+  },
+
+  getLikedNFTs({ commit }) {
+    this.$axios.get('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/nfts/?q=clonex')
+      .then( (response)  => {
+        if(response) {
+          commit('SET_LIKED_NFTS', response.data.data.result)
         }
       })
       .catch( (error)  => {
@@ -166,11 +180,11 @@ export const actions: ActionTree<RootState, RootState> = {
     });
   },
 
-  saveMintedNft({ commit }, {w_adress, data}) {
+  saveNft({ commit }, {w_adress, data}) {
     this.$axios.post('https://sea-turtle-app-n8fhg.ondigitalocean.app/v1/mint/' + w_adress, data)
     .then( (data)  => {
-      if(data.data.user) {
-        console.log(data.data.user)
+      if(data.data) {
+        console.log(data.data)
         // commit('SET_USER', data.data.user)
       }
     })

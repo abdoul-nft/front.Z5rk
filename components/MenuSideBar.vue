@@ -67,9 +67,9 @@
                                 <div class="icon_active">
                                     <i class="ri-home-5-fill"></i>
                                 </div>
-                                <span class="title_link">New</span>
+                                <span class="title_link">Search</span>
 
-                                <span class="xs-badge">8</span>
+                                <!-- <span class="xs-badge">(73)</span> -->
                             </a>
                         </li>
 

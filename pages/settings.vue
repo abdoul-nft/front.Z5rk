@@ -80,22 +80,6 @@
                 </div>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" @click="$nuxt.$router.push('/activity-settings')">
-                <div class="item-content-link">
-                    <div class="icon bg-blue-1 color-blue">
-                        <i class="ri-landscape-line"></i>
-                    </div>
-                    <h3 class="link-title">My Items</h3>
-                </div>
-                <div class="other-cc">
-                    <span class="badge-text"></span>
-                    <div class="icon-arrow">
-                        <i class="ri-arrow-drop-right-line"></i>
-                    </div>
-                </div>
-            </a>
-        </li>
 
         <div class="sub-title-pkg">
             <h2>Settings</h2>

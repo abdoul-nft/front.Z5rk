@@ -37,6 +37,7 @@ export default {
     this.getUserBalance()
     this.getUserTransactions()
     this.$store.dispatch('getNFTs')
+    this.$store.dispatch('getLikedNFTs')
     this.$store.dispatch('searchNFTs', 'doodles')
     this.$store.dispatch('getCreators')
   },

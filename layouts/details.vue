@@ -10,8 +10,7 @@
             <div class="un-block-right">
                 <div class="btn-like-click shape-box">
                     <div class="btnLike">
-                        <input type="checkbox">
-                        <span class="count-likes">3,62 K</span>
+                        <input type="checkbox" :checked="this.$store.state.currentNFT.like ? 'checked' : ''">
                         <div class="icon-inside">
                             <i class="ri-heart-3-line"></i>
                         </div>
@@ -22,11 +21,13 @@
         <div class="space-sticky"></div>
         <Nuxt />
     </div>
+    <BidModal/>
 </div>
 </template>
 
 <script>
 export default {
-
+    methods: {
+    }
 }
 </script>

@@ -182,7 +182,7 @@
                                     </div>
                                     <div class="txt-user">
                                         <h5>Owner</h5>
-                                        <p>{{nftAsset.owner.user ? nftAsset.owner.user.username : ''}}</p>
+                                        <p>{{ nftAsset.owner.user ? nftAsset.owner.user.username : ''}}</p>
                                     </div>
                                 </a>
                                 <div class="other-option">
@@ -310,8 +310,8 @@
             <div class="content">
                 <div class="links-item-pages">
                 </div>
-                <a v-if="canBid" @click="createBuyOrder" class="btn btn-bid-items">
-                    <p>Place a bid</p>
+                <a v-if="canBid" class="btn btn-bid-items" data-bs-toggle="modal" data-bs-target="#mdllPlaceABid">
+                    <p>Make Offer</p>
                     <div class="ico">
                         <i class="ri-arrow-drop-right-line"></i>
                     </div>
@@ -339,7 +339,6 @@ export default Vue.extend({
   mounted() {
     this.getNftAsset()
     this.getOrders()
-    this.getNftFloorPrice()
   },
   methods: {
         parseNftMetaData(value) {
@@ -347,25 +346,6 @@ export default Vue.extend({
         },
         getImage(value) {
             return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
-        },
-
-        async createBuyOrder() {
-            try {
-                const { currentNFT, currentNftContractItem, user } = this.$store.state
-                const options = {
-                    network: 'testnet',
-                    tokenAddress: currentNftContractItem != undefined ? currentNftContractItem.contract_adress : this.$store.state.globalNftContractAddress,
-                    tokenId: currentNFT.token_id,
-                    tokenType: currentNFT.contract_type,
-                    amount: 0.1,
-                    userAddress: user.wallet_address,
-                    paymentTokenAddress: '0xc778417e063141139fce010982780140aa0cd5ab',
-                }
-                const web3 = await Moralis.enableWeb3()
-                await Moralis.Plugins.opensea.createBuyOrder(options);
-            }catch (err) {
-                console.log(err)
-            }
         },
 
         async getNftAsset() {
@@ -397,6 +377,19 @@ export default Vue.extend({
                  console.log(err)
             }
         },
+
+    //    async saveCurrentNft() {
+    //         const { currentNFT } = this.$store.state
+    //         const nftData = {
+    //             image: this.getImage(this.parseNftMetaData(currentNFT.metadata).image),
+    //             name: this.parseNftMetaData(currentNFT.metadata).name,
+    //             description: this.parseNftMetaData(currentNFT.metadata).description,
+    //             token_id: currentNFT.token_id,
+    //             token_address: currentNFT.token_address
+    //         }
+    //         await this.$store.dispatch('saveNft', { w_adress: currentNFT.token_address,  data:nftData})
+
+    //     },
 
         getNftFloorPrice() {
         const { currentNFT } = this.$store.state
