@@ -1,5 +1,8 @@
 <template>
   <div>
+    <section class="loader-page hidden" id="loaderPage">
+        <div class="spinner_flash"></div>
+    </section>
     <section class="unSwiper-cards margin-t-20">
         <!-- un-title-default -->
         <div class="un-title-default">
@@ -13,7 +16,24 @@
                 </a>
             </div>
         </div>
-        <div class="discover-nft-random margin-t-20">
+        <!-- lds-spinner -->
+        <div v-if="loading" class="loader-items margin-y-20">
+            <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div v-else class="discover-nft-random margin-t-20">
             <div class="content-NFTs-body">
                 <div v-for="(nft, index) in this.$store.state.nfts" :key="index" :class="getClass(index)" @click="gotoNftDetails(nft)" >
                     <NftCardItem v-if="modulo(index)" :nft="nft"/>
@@ -78,13 +98,20 @@ export default Vue.extend({
             ],
         }
     },
-    data() {
-        return {
-            mNft: null,
+    watch: {
+        '$store.state.nfts': {
+            immediate: true,
+            handler(value) {
+                if(value) {
+                    this.loading = false
+                }
+            }
         }
     },
-    mounted(){
-        // console.log(this.$store.state.nfts)
+    data() {
+        return {
+            loading: true
+        }
     },
     methods: {
         showNft(value: any) {

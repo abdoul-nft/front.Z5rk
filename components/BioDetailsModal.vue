@@ -5,13 +5,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="icon-socialNetworks">
-                        <a href="javascript: void(0)" class="btn btn-social">
+                        <a @click="gotoSocialMedia('facebook')" class="btn btn-social">
                             <img src="~/assets/images/icons/facebook.svg" alt="">
                         </a>
-                        <a href="javascript: void(0)" class="btn btn-social">
+                        <a @click="gotoSocialMedia('instagram')" class="btn btn-social">
                             <img src="~/assets/images/icons/instagram.svg" alt="">
                         </a>
-                        <a href="javascript: void(0)" class="btn btn-social">
+                        <a @click="gotoSocialMedia('twitter')" class="btn btn-social">
                             <img src="~/assets/images/icons/twitter.svg" alt="">
                         </a>
                     </div>
@@ -48,7 +48,15 @@ export default {
     }
   },
   methods: {
-    
+    gotoSocialMedia (media) {
+        if(media == 'twitter') {
+            window.location.href = 'https://twitter.com/' + this.user.twitter_username
+        }
+        if(media == 'instagram') {
+            window.location.href = 'https://www.instagram.com/' + this.user.instagram_username
+        }
+        window.location.href = 'https://www.instagram.com/' + this.user.instagram_username
+    }
   }
 }
 </script>

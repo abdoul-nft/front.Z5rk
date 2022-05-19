@@ -1,5 +1,8 @@
 <template>
   <div>
+    <section class="loader-page hidden" id="loaderPage">
+        <div class="spinner_flash"></div>
+    </section>
     <section class="main-search-header">
         <div class="content-search">
             <div class="form-group with_icon">
@@ -51,15 +54,7 @@
     </section> -->
 
     <section class="discover-nft-random mt-4">
-        <div class="content-NFTs-body" v-if="this.$store.state.nftSearchResult">
-            <div v-for="(nft, index) in this.$store.state.nftSearchResult" :key="index" :class="getClass(index)" @click="gotoNftDetails(nft)" >
-                <NftCardItem v-if="modulo(index)" :nft="nft"/>
-                <NftListItem v-else :nft="nft" />
-            </div>
-        </div>
-
-        <!-- lds-spinner -->
-        <div class="loader-items margin-y-20">
+        <div v-if="loading" class="loader-items margin-y-20">
             <div class="lds-spinner">
                 <div></div>
                 <div></div>
@@ -75,6 +70,12 @@
                 <div></div>
             </div>
         </div>
+        <div v-else-if="this.$store.state.nftSearchResult" class="content-NFTs-body">
+            <div v-for="(nft, index) in this.$store.state.nftSearchResult" :key="index" :class="getClass(index)" @click="gotoNftDetails(nft)" >
+                <NftCardItem v-if="modulo(index)" :nft="nft"/>
+                <NftListItem v-else :nft="nft" />
+            </div>
+        </div>
     </section>
     
 </div>
@@ -84,45 +85,48 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'search',
-  middleware: 'auth',
-  layout: 'navigation',
-  data() {
-      return {
-          keyword: '',
-      }
-  },
-//   watch: {
-//     keyword: {
-//       immediate: false,
-//       handler(value) {
-//         console.log('value => ',value)
-//         // this.$store.dispatch('searchNFTs', value)
-//       }
-//     }
-//   },
-  methods: {
-    modulo(n:number) {
-        return n%5 === 0
+    name: 'search',
+    middleware: 'auth',
+    layout: 'navigation',
+    data() {
+        return {
+            keyword: '',
+            loading: false
+        }
     },
-    parseNftMetaData(value: string) {
-        return JSON.parse(value)
+    watch: {
+        '$store.state.nftSearchResult': {
+            immediate: true,
+            handler(value) {
+                if(value) {
+                    this.loading = false
+                }
+            }
+        }
     },
-    getImage(value: string) {
-        if(value) return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
-        return ''
-    },
-    getClass(n:number) {
-        return this.modulo(n) ? 'item-card-nft' : 'item-sm-card-NFTs'
-    },
-    search() {
-        this.$store.dispatch('searchNFTs', this.keyword)
-    },
-    gotoNftDetails(nft: any) {
-        this.$store.dispatch('updateCurrentNFT', nft)
-        this.$store.dispatch('updateCurrentNftContractItem', nft.token_address)
-        this.$router.push ({name: 'nft-address', params: {address: nft.token_address}})
+    methods: {
+        modulo(n:number) {
+            return n%5 === 0
+        },
+        parseNftMetaData(value: string) {
+            return JSON.parse(value)
+        },
+        getImage(value: string) {
+            if(value) return ( value.includes('ipfs://ipfs')) ? value.replace('ipfs://ipfs','https://ipfs.moralis.io:2053/ipfs/') : value.replace('ipfs://','https://ipfs.moralis.io:2053/ipfs/')
+            return ''
+        },
+        getClass(n:number) {
+            return this.modulo(n) ? 'item-card-nft' : 'item-sm-card-NFTs'
+        },
+        search() {
+            this.loading = true
+            this.$store.dispatch('searchNFTs', this.keyword)
+        },
+        gotoNftDetails(nft: any) {
+            this.$store.dispatch('updateCurrentNFT', nft)
+            this.$store.dispatch('updateCurrentNftContractItem', nft.token_address)
+            this.$router.push ({name: 'nft-address', params: {address: nft.token_address}})
+        }
     }
-  }
 })
 </script>

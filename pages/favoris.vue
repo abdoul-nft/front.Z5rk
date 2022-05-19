@@ -1,5 +1,8 @@
 <template>
     <section class="discover-nft-random margin-y-20">
+        <section class="loader-page hidden" id="loaderPage">
+            <div class="spinner_flash"></div>
+        </section>
         <div class="content-NFTs-body">
             <!-- item-card-nft -->
             <div class="item-card-nft">

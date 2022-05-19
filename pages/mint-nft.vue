@@ -1,11 +1,14 @@
 <template>
     <div id="wrapper">
+        <section class="loader-page hidden" id="loaderPage">
+            <div class="spinner_flash"></div>
+        </section>
         <form @submit="handleSubmit" id="content">
             <AppDefaultHeader title="Mint my own NFT" />
             <div class="space-sticky"></div>
             <section class="un-create-collectibles">
                 <div class="form-group upload-form">
-                    <h2 @click="getNftMetadata">Upload file</h2>
+                    <h2>Upload file</h2>
                     <p>Choose your file to upload</p>
                     <div class="upload-input-form">
                         <input @change="onFileChange" type="file">

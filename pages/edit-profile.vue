@@ -1,5 +1,8 @@
 <template>
 <div id="wrapper">
+    <section class="loader-page hidden" id="loaderPage">
+        <div class="spinner_flash"></div>
+    </section>
     <form id="content" @submit="handleSubmit">
         <AppDefaultHeader title="Edit Profile" />
         <div class="space-sticky"></div>

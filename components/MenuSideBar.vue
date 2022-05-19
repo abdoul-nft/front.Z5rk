@@ -111,12 +111,12 @@
 export default {
   name: 'MenuSideBar',
   methods : {
-        async  logOut() {
-            await  window.Moralis.User.logOut();
-            console.log("logged out");
-            // this.$store.dispatch('updateUser', null)
-            this.$router.push('/connect-wallet')
-        }
+    async  logOut() {
+        await  window.Moralis.User.logOut();
+        console.log("logged out");
+        // this.$store.dispatch('updateUser', null)
+        this.$router.push('/connect-wallet')
     }
+  },
 }
 </script>

@@ -1,5 +1,8 @@
 <template>
     <section class="un-details-collectibles">
+        <section class="loader-page hidden" id="loaderPage">
+            <div class="spinner_flash"></div>
+        </section>
         <!-- head -->
         <div class="head">
             <div class="cover-main-img">
@@ -75,7 +78,24 @@
             <div class="tab-content content-custome-data" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-Info" role="tabpanel"
                     aria-labelledby="pills-Info-tab">
-                    <ul v-if="nftAsset" class="nav flex-column nav-users-profile margin-t-20">
+                    <!-- lds-spinner -->
+                    <div v-if="loading" class="loader-items">
+                        <div class="lds-spinner">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <ul v-else-if="nftAsset" class="nav flex-column nav-users-profile margin-t-20">
 
                         <li class="nav-item">
                             <div class="nav-link">
@@ -290,7 +310,7 @@
             <div class="content">
                 <div class="links-item-pages">
                 </div>
-                <a @click="getOrders" class="btn btn-bid-items">
+                <a v-if="canBid" @click="createBuyOrder" class="btn btn-bid-items">
                     <p>Place a bid</p>
                     <div class="ico">
                         <i class="ri-arrow-drop-right-line"></i>
@@ -312,7 +332,8 @@ export default Vue.extend({
     return {
         nftAsset: null,
         orders: null,
-        floorPrice: null
+        floorPrice: null,
+        loading: false
     }
   },
   mounted() {
@@ -330,17 +351,18 @@ export default Vue.extend({
 
         async createBuyOrder() {
             try {
-                const { currentNFT, user } = this.$store.state
+                const { currentNFT, currentNftContractItem, user } = this.$store.state
                 const options = {
                     network: 'testnet',
-                    tokenAddress: currentNFT.token_address,
+                    tokenAddress: currentNftContractItem != undefined ? currentNftContractItem.contract_adress : this.$store.state.globalNftContractAddress,
                     tokenId: currentNFT.token_id,
                     tokenType: currentNFT.contract_type,
                     amount: 0.1,
                     userAddress: user.wallet_address,
-                    paymentTokenAddress: user.wallet_address,
+                    paymentTokenAddress: '0xc778417e063141139fce010982780140aa0cd5ab',
                 }
-                await window.Moralis.Plugins.opensea.createBuyOrder(options);
+                const web3 = await Moralis.enableWeb3()
+                await Moralis.Plugins.opensea.createBuyOrder(options);
             }catch (err) {
                 console.log(err)
             }
@@ -348,6 +370,7 @@ export default Vue.extend({
 
         async getNftAsset() {
             try {
+                this.loading = true
                 const { currentNftContractItem, currentNFT } = this.$store.state
                 const options = {
                     network: 'testnet',
@@ -355,7 +378,7 @@ export default Vue.extend({
                     tokenId: currentNFT.token_id,
                 }
                 this.nftAsset = await Moralis.Plugins.opensea.getAsset(options)
-                console.log(this.nftAsset)
+                this.loading = false
             }catch(err) {
                 console.log(err)
             }
@@ -401,6 +424,11 @@ export default Vue.extend({
         convertToUsd(value) {
             return 405.64 * value
         },
+
+        canBid() {
+            const { currentNftContractItem, user } = this.$store.state
+            return nftAsset && nftAsset.owner.address != user.wallet_address && currentNftContractItem
+        }
   }
 })
 </script>

@@ -1,5 +1,8 @@
 <template>
     <div class="unList-bestSeller bg-white">
+        <section class="loader-page hidden" id="loaderPage">
+            <div class="spinner_flash"></div>
+        </section>
         <div class="content-list-sellers">
             <ul class="nav flex-column">
 

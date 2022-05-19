@@ -1,5 +1,8 @@
 <template>
 <div>
+    <section class="loader-page hidden" id="loaderPage">
+        <div class="spinner_flash"></div>
+    </section>
     <section class="un-my-account">
         <!-- head -->
         <div class="head border-0">

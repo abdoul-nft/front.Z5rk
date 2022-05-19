@@ -1,5 +1,8 @@
 <template>
 <div id="wrapper">
+    <section class="loader-page hidden" id="loaderPage">
+        <div class="spinner_flash"></div>
+    </section>
     <div id="content">
         <ProfileHeader :username="$store.state.currentCreator.username" :creator="true"/>
 

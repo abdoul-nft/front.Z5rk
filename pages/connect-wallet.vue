@@ -1,5 +1,8 @@
 <template>
 <div>
+  <section class="loader-page hidden" id="loaderPage">
+    <div class="spinner_flash"></div>
+  </section>
   <div id="wrapper">
       <div id="content">
           <div class="space-sticky"></div>
