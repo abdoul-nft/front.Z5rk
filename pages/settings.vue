@@ -39,8 +39,8 @@
 
               <button type="button"
                   class="btn btn-md-size effect-click border-primary rounded-pill text-primary"
-                  data-bs-toggle="modal" data-bs-target="#mdllAddETH">
-                  Add Balance
+                  data-bs-toggle="modal" data-bs-target="#mdllSendETH">
+                  Send ETH
               </button>
           </div>
       </div>
