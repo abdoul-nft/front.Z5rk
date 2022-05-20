@@ -10,7 +10,7 @@ export const state = () => ({
   nftSearchResult: null,
   currentNFT: null,
   currentNftContractItem: null,
-  globalNftContractAddress: '0x0Fb6EF3505b9c52Ed39595433a21aF9B5FCc4431', // NFT Minting Contract Use This One "Batteries Included", code of this contract is in the github repository under contract_base for your reference.
+  globalNftContractAddress: '0x0Fb6EF3505b9c52Ed39595433a21aF9B5FCc4431', //'0xF72e3E2eCBC12E464B3573DCaa42cB50236F5779', // NFT Minting Contract Use This One "Batteries Included", code of this contract is in the github repository under contract_base for your reference.
   creators: null,
   currentCreator: null,
   likesNFTs: null,
